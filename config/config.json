@@ -1,0 +1,7 @@
+{
+    "resources": {
+        "tray": {
+            "icon": "./resources/icon/icon.png"
+        }
+    }
+}
