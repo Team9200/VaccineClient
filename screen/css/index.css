@@ -1,0 +1,10 @@
+body {
+    background-color: white;
+}
+
+.status {
+    background-color: red;
+    width: 800px;
+    height: 300px;
+    color: white;
+}

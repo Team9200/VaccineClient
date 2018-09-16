@@ -1,11 +1,14 @@
-const {app, BrowserWindow} = require('electron')
-const path = require('path')
-const url = require('url')
+const {app, BrowserWindow, Menu} = require('electron');
+const path = require('path');
+const url = require('url');
+const appMenu = require('./menu.js');
 
 let win
 
 function createWindow () {
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({width: 800, height: 600, resizable: false})
+  Menu.setApplicationMenu(appMenu);
+  
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'screen/index.html'),
     protocol: 'file:',
@@ -18,7 +21,7 @@ function createWindow () {
 }
 
 app.on('ready', createWindow)
-
+  
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
