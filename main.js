@@ -9,7 +9,8 @@ let win = null;
 let tray = null;
 
 function createWindow () {
-  win = new BrowserWindow({width: 800, height: 600, resizable: false})
+  win = new BrowserWindow({width: 800, height: 600, resizable: false});
+  // win = new BrowserWindow({width: 800, height: 600, resizable: false, frame: false, titleBarStyle: 'hidden'})
   Menu.setApplicationMenu(appMenu);
 
   tray = new Tray(config.resources.tray.icon);
@@ -17,7 +18,7 @@ function createWindow () {
   tray.setContextMenu(trayMenu);
 
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'screen/index.html'),
+    pathname: path.join(__dirname, 'app/src/index.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -27,16 +28,16 @@ function createWindow () {
   });
 }
 
-app.on('ready', createWindow)
-  
+app.on('ready', createWindow);
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
 });
 
 app.on('activate', () => {
   if (win === null) {
-    createWindow()
+    createWindow();
   }
 });

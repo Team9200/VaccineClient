@@ -2,10 +2,10 @@ const {app, dialog, Menu} = require('electron');
 const appName = app.getName();
 let appMenu = [
     {
-        label: "Info",
+        label: "정보",
         submenu: [
             {
-                label: "Developer",
+                label: "개발자",
                 click() {
                     dialog.showMessageBox({message: "리니어선형", buttons: ["확인"]});
                 }
@@ -19,18 +19,18 @@ if (process.platform === 'darwin') {
 		label: appName,
 		submenu: [
 			{
-                label:'Quit',
-				role: 'quit'
+                label: "Quit",
+				role: "quit"
 			}
 		]
 	});
 } else {
     appMenu.unshift({
-		label: 'File',
+		label: '파일',
 		submenu: [
 			{
-				label:'Quit',
-				role: 'quit'
+				label: "종료",
+				role: "quit"
 			}
 		]
 	});

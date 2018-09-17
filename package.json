@@ -1,5 +1,5 @@
 {
-  "name": "vaccinclient",
+  "name": "linearvaccine",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -8,7 +8,7 @@
     "build:linux": "npm run build:linux32 && npm run build:linux64",
     "build:linux32": "build --linux --ia32",
     "build:linux64": "build --linux --x64",
-    "build:win": "npm run build:win32 && npm run build:win64", 
+    "build:win": "npm run build:win32 && npm run build:win64",
     "build:win32": "build --win --ia32",
     "build:win64": "build --win --x64"
   },
@@ -16,6 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "path": "^0.12.7",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
     "url": "^0.11.0"
   },
   "devDependencies": {
@@ -25,9 +27,11 @@
     "productName": "VaccinClient",
     "appId": "kr.kitribob.vaccin",
     "asar": true,
-    "protocols" : {
-        "name" : "VaccinClient",
-        "schemes" : ["vaccinclient"]
+    "protocols": {
+      "name": "VaccinClient",
+      "schemes": [
+        "vaccinclient"
+      ]
     },
     "mac": {
       "target": [
@@ -45,15 +49,15 @@
     },
     "linux": {
       "target": [
-        "AppImage", 
+        "AppImage",
         "deb",
         "rpm",
         "zip",
         "tar.gz"
       ]
     },
-    "nsis":{
-      "oneClick" : false,
+    "nsis": {
+      "oneClick": false,
       "allowToChangeInstallationDirectory": true
     },
     "directories": {
