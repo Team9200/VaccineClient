@@ -9,12 +9,12 @@ let win = null;
 let tray = null;
 
 function createWindow () {
-  win = new BrowserWindow({width: 800, height: 600, resizable: false});
+  win = new BrowserWindow({width: 800, height: 600, resizable: false, useContentSize: true});
   // win = new BrowserWindow({width: 800, height: 600, resizable: false, frame: false, titleBarStyle: 'hidden'})
   Menu.setApplicationMenu(appMenu);
 
   tray = new Tray(config.resources.tray.icon);
-  tray.setToolTip("VaccinClient");
+  tray.setToolTip("LinearVaccine");
   tray.setContextMenu(trayMenu);
 
   win.loadURL(url.format({
