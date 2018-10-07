@@ -1,0 +1,3 @@
+[submodule "vaccine"]
+	path = vaccine
+	url = https://github.com/Team9200/VaccineEngine
