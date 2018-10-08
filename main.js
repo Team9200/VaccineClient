@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu, Tray} = require('electron');
+const {app, BrowserWindow, Menu, Tray, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const appMenu = require('./menu/menu');
@@ -13,6 +13,9 @@ function createWindow () {
   // win = new BrowserWindow({width: 800, height: 600, resizable: false, frame: false, titleBarStyle: 'hidden'})
   Menu.setApplicationMenu(appMenu);
 
+
+  win.webContents.openDevTools();
+  
   tray = new Tray(config.resources.tray.icon);
   tray.setToolTip("LinearVaccine");
   tray.setContextMenu(trayMenu);
@@ -40,4 +43,11 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
+});
+
+ipcMain.on('ondragstart', (event, filePath) => {
+  event.sender.startDrag({
+    file: filePath,
+    icon: '/path/to/icon.png'
+  });
 });

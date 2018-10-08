@@ -1,12 +1,57 @@
 <html>
-    <head>
-        <title>LinearVaccine</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta charset="utf-8">
-        <link href="../resources/css/index.css" rel="stylesheet">
-    </head>
 
-    <body>
-        <input type="file">
-    </body>
+<head>
+    <title>LinearVaccine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <link href="../resources/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <form>
+        <div>
+            <label for="image_uploads">Choose files</label>
+            <input type="file" id="file" name="file">
+        </div>
+        <div class="preview">
+            <p>No files currently selected for upload</p>
+        </div>
+        <div>
+            <button>Submit</button>
+        </div>
+    </form>
+    <script>
+        var input = document.querySelector('input');
+        var preview = document.querySelector('.preview');
+
+        function updateFileInfo() {
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+
+            var curFiles = input.files;
+            if (curFiles.length === 0) {
+                var fileinfo = document.createElement('p');
+                fileinfo.textContent = 'No file selected';
+                prev
+            } else {
+                var list = document.createElement('ol');
+                preview.appendChild(list);
+                for (var i = 0; i < curFiles.length; i++) {
+                    var listItem = document.createElement('li');
+                    var para = document.createElement('p');
+                    if (curFiles[i]) {
+                        para.textContent = 'File name ' + curFiles[i].name + ' file path: ' + curFiles[i].path + ' file size: ' + curFiles[i].size;
+                        listItem.appendChild(para);
+                    }
+
+                    list.appendChild(listItem);
+                }
+            }
+        }
+
+        input.addEventListener('change', updateFileInfo);
+    </script>
+</body>
+
 </html>
