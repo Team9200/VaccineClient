@@ -51,7 +51,7 @@ ipcMain.on('getFile', function(event, message) {
 
   var options = {
     mode: 'text',
-    pythonOptions: ['-u'],
+    // pythonOptions: ['-u'],
     scriptPath: path.join(__dirname, '/vaccine/engine/'),
     args: [message]
   };
