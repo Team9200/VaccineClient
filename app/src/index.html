@@ -21,10 +21,11 @@
         </div>
     </form>
     <script>
+        const {ipcRenderer} = require('electron');
         var input = document.querySelector('input');
         var preview = document.querySelector('.preview');
 
-        function updateFileInfo() {
+        function getFileInfo() {
             while (preview.firstChild) {
                 preview.removeChild(preview.firstChild);
             }
@@ -33,24 +34,25 @@
             if (curFiles.length === 0) {
                 var fileinfo = document.createElement('p');
                 fileinfo.textContent = 'No file selected';
-                prev
             } else {
                 var list = document.createElement('ol');
                 preview.appendChild(list);
-                for (var i = 0; i < curFiles.length; i++) {
                     var listItem = document.createElement('li');
                     var para = document.createElement('p');
-                    if (curFiles[i]) {
-                        para.textContent = 'File name ' + curFiles[i].name + ' file path: ' + curFiles[i].path + ' file size: ' + curFiles[i].size;
+                    if (curFiles[0]) {
+                        ipcRenderer.send('getFile', curFiles[0].path);
+                        
+                        para.textContent = 'File name ' + curFiles[0].name + 
+                        ' file path: ' + curFiles[0].path 
+                        + ' file size: ' + curFiles[0].size
+                        + ' file hash: ' + curFiles[0].type;
                         listItem.appendChild(para);
                     }
-
                     list.appendChild(listItem);
-                }
             }
         }
 
-        input.addEventListener('change', updateFileInfo);
+        input.addEventListener('change', getFileInfo);
     </script>
 </body>
 

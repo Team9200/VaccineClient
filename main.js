@@ -4,6 +4,7 @@ const url = require('url');
 const appMenu = require('./menu/menu');
 const trayMenu = require('./menu/TrayMenu');
 const config = require('./config/config');
+const {PythonShell} = require('python-shell');
 
 let win = null;
 let tray = null;
@@ -45,9 +46,18 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('ondragstart', (event, filePath) => {
-  event.sender.startDrag({
-    file: filePath,
-    icon: '/path/to/icon.png'
-  });
+ipcMain.on('getFile', function(event, message) {
+  console.log(message);
+
+  var options = {
+    mode: 'text',
+    pythonOptions: ['-u'],
+    scriptPath: path.join(__dirname, '/vaccine/engine/'),
+    args: [message]
+  };
+
+  PythonShell.run('linvlib.py', options, function (err, results) {
+    if (err) console.log(err);
+    console.log(results);
+  })
 });
