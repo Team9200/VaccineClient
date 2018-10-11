@@ -4,33 +4,70 @@ body {
     color: white;
 }
 
-.header {
-    background-color: #222;
-    height: 150px;
-    padding: 20px;
-    color: white;
+html {
+    margin: 0px;
+    padding: 0px;
 }
 
-.header .title {
-    font-size: 1.5em;
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: #2D2D30;
+    border: 1px solid #68217A;
+    border-bottom: 24px solid #68217A;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
 }
 
-.content {
-    font-size: 15px;
+#title-bar {
+    -webkit-app-region: drag;
+    height: 32px;
+    padding: 0px;
+    margin: 0px;
+    color: #ADADAD;
+    font-family: sans-serif;
 }
 
-.footer {
-    background-color: #222;
+#title {
+    position: fixed;
+    top: 0px;
+    left: 12px;
+    line-height: 32px;
+    font-size: 14px;
 }
 
-.footer ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #222;
+
+
+#title-bar-btns {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    top: 1px;
+    right: 0px;
 }
 
-.footer li {
-    float: left;
-    padding-right: 20px;
-} 
+
+
+#title-bar-btns button {
+    height: 32px;
+    width: 32px;
+    background-color: transparent;
+    border: none;
+    color: #F1F1F1;
+    font-size: 16px;
+}
+
+#title-bar-btns button:hover {
+    background-color: #3F3F41;
+}
+
+#content {
+    padding: 12px;
+    color: #CCCCCC;
+}
+
+a {
+    color: #68217A;
+}

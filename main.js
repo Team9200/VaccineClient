@@ -1,7 +1,7 @@
 const {app, BrowserWindow, Menu, Tray, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
-const appMenu = require('./menu/menu');
+// const appMenu = require('./menu/menu');
 const trayMenu = require('./menu/TrayMenu');
 const config = require('./config/config');
 const {PythonShell} = require('python-shell');
@@ -10,10 +10,15 @@ let win = null;
 let tray = null;
 
 function createWindow () {
-  win = new BrowserWindow({width: 800, height: 600, resizable: false, useContentSize: true});
-  // win = new BrowserWindow({width: 800, height: 600, resizable: false, frame: false, titleBarStyle: 'hidden'})
-  Menu.setApplicationMenu(appMenu);
+  win = new BrowserWindow({
+      width: 800, 
+      height: 600, 
+      resizable: false, 
+      useContentSize: true,
+      frame: false
+  });
 
+  // Menu.setApplicationMenu(appMenu);
 
   win.webContents.openDevTools();
   
