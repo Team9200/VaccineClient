@@ -3,15 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "scripts": {
-    "build:osx": "build --mac",
-    "build:linux": "npm run build:linux32 && npm run build:linux64",
-    "build:linux32": "build --linux --ia32",
-    "build:linux64": "build --linux --x64",
-    "build:win": "npm run build:win32 && npm run build:win64",
-    "build:win32": "build --win --ia32",
-    "build:win64": "build --win --x64"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -22,16 +14,17 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "electron-builder": "^20.28.4"
+    "electron": "^3.0.4",
+    "electron-prebuilt-compile": "^3.0.2"
   },
   "build": {
-    "productName": "VaccinClient",
-    "appId": "kr.kitribob.vaccin",
+    "productName": "VaccineClient",
+    "appId": "kr.kitribob.vaccine",
     "asar": true,
     "protocols": {
-      "name": "VaccinClient",
+      "name": "VaccineClient",
       "schemes": [
-        "vaccinclient"
+        "vaccineclient"
       ]
     },
     "mac": {
@@ -40,7 +33,7 @@
       ]
     },
     "dmg": {
-      "title": "HelloElectron"
+      "title": "VaccineClient"
     },
     "win": {
       "target": [

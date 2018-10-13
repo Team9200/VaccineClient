@@ -20,7 +20,7 @@ function createWindow () {
 
   // Menu.setApplicationMenu(appMenu);
 
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   
   tray = new Tray(config.resources.tray.icon);
   tray.setToolTip("LinearVaccine");
