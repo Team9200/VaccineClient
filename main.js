@@ -7,24 +7,25 @@ const config = require('./config/config');
 const {PythonShell} = require('python-shell');
 
 let win = null;
-let tray = null;
+// let tray = null;
 
 function createWindow () {
   win = new BrowserWindow({
-      width: 800, 
-      height: 600, 
+      width: 650,
+      height: 420, 
       resizable: false, 
       useContentSize: true,
       frame: false
   });
+  win.setMenu(null);
 
   // Menu.setApplicationMenu(appMenu);
 
   // win.webContents.openDevTools();
   
-  tray = new Tray(config.resources.tray.icon);
-  tray.setToolTip("LinearVaccine");
-  tray.setContextMenu(trayMenu);
+  // tray = new Tray(config.resources.tray.icon);
+  // tray.setToolTip("LinearVaccine");
+  // tray.setContextMenu(trayMenu);
 
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'app/src/index.html'),

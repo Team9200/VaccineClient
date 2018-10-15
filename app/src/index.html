@@ -4,6 +4,8 @@
     <title>LinearVaccine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="utf-8">
+    <link href="../resources/css/common.css" rel="stylesheet">
+    <link href="../resources/css/titlebar.css" rel="stylesheet">
     <link href="../resources/css/index.css" rel="stylesheet">
 </head>
 
@@ -12,60 +14,24 @@
         <div id="title">LinearVaccine</div>
         <div id="title-bar-btns">
             <button id="min-btn">-</button>
-            <!-- <button id="max-btn">+</button> -->
             <button id="close-btn">x</button>
         </div>
     </div>
-    <div id="content">
-        <h1>LinearVaccine</h1>
-        <form>
-            <div>
-                <label for="image_uploads">Choose files</label>
-                <input type="file" id="file" name="file">
-            </div>
-            <div class="preview">
-                <p>No files currently selected for upload</p>
-            </div>
-        </form>
+    
+    <div class="content">
+        <p class="recently">마지막 검사 시간: 2018년 10월 14일 00시 40분 48초</p>
+        <div class="container">
+            <button class="button grid-1">검사</button>
+            <button class="button grid-2">검역소</button>
+            <button class="button grid-3">로그</button>
+        </div>
     </div>
+
+    <div class="footer">
+        
+    </div>
+
     <script src="../resources/js/titlebar.js"></script>
-
-    <script>
-        const {
-            ipcRenderer
-        } = require('electron');
-        var input = document.querySelector('input');
-        var preview = document.querySelector('.preview');
-
-        function getFileInfo() {
-            while (preview.firstChild) {
-                preview.removeChild(preview.firstChild);
-            }
-
-            var curFiles = input.files;
-            if (curFiles.length === 0) {
-                var fileinfo = document.createElement('p');
-                fileinfo.textContent = 'No file selected';
-            } else {
-                var list = document.createElement('ol');
-                preview.appendChild(list);
-                var listItem = document.createElement('li');
-                var para = document.createElement('p');
-                if (curFiles[0]) {
-                    ipcRenderer.send('getFile', curFiles[0].path);
-
-                    para.textContent = 'File name ' + curFiles[0].name +
-                        ' file path: ' + curFiles[0].path +
-                        ' file size: ' + curFiles[0].size +
-                        ' file hash: ' + curFiles[0].type;
-                    listItem.appendChild(para);
-                }
-                list.appendChild(listItem);
-            }
-        }
-
-        input.addEventListener('change', getFileInfo);
-    </script>
 </body>
 
 </html>

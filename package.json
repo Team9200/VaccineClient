@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "scripts": {},
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . LinearVaccine --asar --platform win32 --arch x64 --out dist/",
+    "setup": "node ./util/installer.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -15,16 +19,17 @@
   },
   "devDependencies": {
     "electron": "^3.0.4",
-    "electron-prebuilt-compile": "^3.0.2"
+    "electron-prebuilt-compile": "^3.0.2",
+    "electron-winstaller": "^2.7.0"
   },
   "build": {
     "productName": "VaccineClient",
     "appId": "kr.kitribob.vaccine",
     "asar": true,
     "protocols": {
-      "name": "VaccineClient",
+      "name": "LinearVaccine",
       "schemes": [
-        "vaccineclient"
+        "linearvaccine"
       ]
     },
     "mac": {
@@ -33,7 +38,7 @@
       ]
     },
     "dmg": {
-      "title": "VaccineClient"
+      "title": "LinearVaccine"
     },
     "win": {
       "target": [

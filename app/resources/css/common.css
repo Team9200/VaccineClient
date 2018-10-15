@@ -1,0 +1,19 @@
+html {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: #232427;
+    color: white;
+    /* border: 1px solid #68217A;
+    border-bottom: 24px solid #68217A; */
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    font-family: sans-serif;
+}

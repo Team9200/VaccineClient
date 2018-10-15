@@ -1,73 +1,65 @@
-body {
-    background-color: darkblue;
-    font-family: sans-serif;
-    color: white;
+.content {
+    width: 600px;
+    padding: 15px;
 }
 
-html {
-    margin: 0px;
-    padding: 0px;
-}
-
-body {
-    padding: 0px;
-    margin: 0px;
-    background-color: #2D2D30;
-    border: 1px solid #68217A;
-    border-bottom: 24px solid #68217A;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-}
-
-#title-bar {
-    -webkit-app-region: drag;
-    height: 32px;
-    padding: 0px;
-    margin: 0px;
-    color: #ADADAD;
-    font-family: sans-serif;
-}
-
-#title {
-    position: fixed;
-    top: 0px;
-    left: 12px;
-    line-height: 32px;
-    font-size: 14px;
-}
-
-
-
-#title-bar-btns {
-    -webkit-app-region: no-drag;
-    position: fixed;
-    top: 1px;
-    right: 0px;
-}
-
-
-
-#title-bar-btns button {
-    height: 32px;
-    width: 32px;
-    background-color: transparent;
+/* .recently {
+    background-color: gray;
     border: none;
-    color: #F1F1F1;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 11px;
+    width: 100%;
+} */
+
+.content .recently {
+    background-color: gray;
+    color: white;
+    width: 100%;
+    height: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+.content .container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+.content .container button {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+.content .container .grid-1 {
+    background-color: red;
+    grid-row: 1 / span 2;
+}
+
+.content .container .grid-2 {
+    background-color: green;
+}
+
+.content .container .grid-3 {
+    background-color: blue;
+}
+
+.button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
     font-size: 16px;
 }
 
-#title-bar-btns button:hover {
-    background-color: #3F3F41;
-}
-
-#content {
-    padding: 12px;
-    color: #CCCCCC;
-}
-
-a {
-    color: #68217A;
+.footer {
+    
 }

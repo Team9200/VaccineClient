@@ -1,0 +1,36 @@
+#title-bar {
+    -webkit-app-region: drag;
+    height: 45px;
+    padding: 0px;
+    margin: 0px;
+    color: #ADADAD;
+    font-family: sans-serif;
+}
+
+#title {
+    position: fixed;
+    top: 0px;
+    left: 12px;
+    line-height: 45px;
+    font-size: 16px;
+}
+
+#title-bar-btns {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    top: 1px;
+    right: 0px;
+}
+
+#title-bar-btns button {
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    color: #F1F1F1;
+    font-size: 16px;
+}
+
+#title-bar-btns button:hover {
+    background-color: #3F3F41;
+}
