@@ -10,28 +10,76 @@
 </head>
 
 <body>
-    <div id="title-bar">
-        <div id="title">LinearVaccine</div>
-        <div id="title-bar-btns">
-            <button id="min-btn">-</button>
-            <button id="close-btn">x</button>
+    <form>
+        <div id="title-bar">
+            <div id="title">LinearVaccine</div>
+            <div id="title-bar-btns">
+                <button id="min-btn">-</button>
+                <button id="close-btn">x</button>
+            </div>
         </div>
-    </div>
     
-    <div class="content">
-        <p class="recently">마지막 검사 시간: 2018년 10월 14일 00시 40분 48초</p>
-        <div class="container">
-            <button class="button grid-1">검사</button>
-            <button class="button grid-2">검역소</button>
-            <button class="button grid-3">로그</button>
+        <div class="content">
+            <p class="recently">마지막 검사 시간: 2018년 10월 14일 00시 40분 48초</p>
+            <div class="container">
+                <button class="button grid-1" id="start">검사</button>
+                <button class="button grid-2">검역소</button>
+                <button class="button grid-3">로그</button>
+            </div>
+            <label for="image_uploads">검사할 파일  :</label>
+            <input type="file" id="file" name="file">
+            <br><br>
+            <div class="preview">검사할 파일을 선택해주세요.</div>
         </div>
-    </div>
+    </form>
 
     <div class="footer">
-        
+
     </div>
 
     <script src="../resources/js/titlebar.js"></script>
+
+    <script>
+        const {
+            ipcRenderer
+        } = require('electron');
+
+        var start = document.getElementById('start');
+        var input = document.querySelector('input');
+        var preview = document.querySelector('.preview'); 
+
+        function getFileInfo() {
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+
+            var curFiles = input.files;
+            if (curFiles.length === 0) {
+                var fileinfo = document.createElement('p');
+                fileinfo.textContent = 'No file selected';
+            } else {
+                var list = document.createElement('ol');
+                preview.appendChild(list);
+                
+                var listItem = document.createElement('li');
+                var para = document.createElement('p');
+                if (curFiles[0]) {
+                    para.textContent =
+                        ' file path : ' + curFiles[0].path + 
+                        ' [' + curFiles[0].size + ' Byte]';
+                    listItem.appendChild(para);
+                }
+                list.appendChild(listItem);
+            }
+        }
+
+        input.addEventListener('change', getFileInfo);
+
+        start.addEventListener('click', function() {
+            var curFiles = input.files;
+            ipcRenderer.send('getFile', curFiles[0].path);
+        }, false)
+    </script>
 </body>
 
 </html>
