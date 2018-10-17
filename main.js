@@ -1,18 +1,20 @@
 const {app, BrowserWindow, Menu, Tray, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
+var fs = require('fs');
 // const appMenu = require('./menu/menu');
 const trayMenu = require('./menu/TrayMenu');
 const config = require('./config/config');
 const {PythonShell} = require('python-shell');
 
 let win = null;
+let child = null;
 // let tray = null;
 
 function createWindow () {
   win = new BrowserWindow({
-      width: 650,
-      height: 420, 
+      width: 655,
+      height: 460, 
       resizable: false, 
       useContentSize: true,
       frame: false
@@ -35,6 +37,28 @@ function createWindow () {
 
   win.on('closed', () => {
     win = null
+  });
+}
+
+function createChildWindow () {
+  child = new BrowserWindow({
+      parent: win,
+      width: 655,
+      height: 300, 
+      resizable: false, 
+      useContentSize: true,
+      frame: false
+  });
+  child.setMenu(null);
+
+  child.loadURL(url.format({
+    pathname: path.join(__dirname, 'app/src/result.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+
+  child.on('closed', () => {
+    child = null
   });
 }
 
@@ -65,5 +89,7 @@ ipcMain.on('getFile', function(event, message) {
   PythonShell.run('linvlib.py', options, function (err, results) {
     if (err) console.log(err);
     console.log(results);
+    var result = results;
   })
+  createChildWindow();
 });
