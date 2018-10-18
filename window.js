@@ -5,154 +5,83 @@ const {
 } = require('electron');
 const trayMenu = require('./menu/TrayMenu');
 // const appMenu = require('./menu/menu');
-const config = require('./config/config');
+// const config = require('./config/config');
 const path = require('path');
 const url = require('url');
+const info = require('./config/mainWindowdowInfo');
 
-let win = null;
-let child = null;
+let mainWindow = null;
+let searchWindow = null;
 // let tray = null;
 
 module.exports = {
     createWindow: () => {
-        win = new BrowserWindow({
+        mainWindow = new BrowserWindow({
             width: 655,
             height: 460,
             resizable: false,
             frame: false
         });
-        win.setMenu(null);
+        mainWindow.setMenu(null);
 
         // Menu.setApplicationMenu(appMenu);
 
-        // win.webContents.openDevTools();
+        // mainWindow.webContents.openDevTools();
 
         // tray = new Tray(config.resources.tray.icon);
         // tray.setToolTip("LinearVaccine");
         // tray.setContextMenu(trayMenu);
 
-        win.loadURL(url.format({
+        mainWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'app/src/index.html'),
             protocol: 'file:',
             slashes: true
         }));
 
-        win.on('closed', () => {
-            win = null
+        mainWindow.on('closed', () => {
+            mainWindow = null
         });
     },
     createSearchWindow: () => {
-        child = new BrowserWindow({
-            parent: win,
+        searchWindow = new BrowserWindow({
+            parent: mainWindow,
             width: 655,
             height: 300,
             resizable: false,
             useContentSize: true,
             frame: false
         });
-        child.setMenu(null);
+        searchWindow.setMenu(null);
 
-        child.loadURL(url.format({
+        searchWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'app/src/search.html'),
             protocol: 'file:',
             slashes: true
         }));
 
-        child.on('closed', () => {
-            child = null
+        searchWindow.on('closed', () => {
+            searchWindow = null
         });
     },
-    createChildWindow: () => {
-        child = new BrowserWindow({
-            parent: win,
-            width: 655,
-            height: 300,
-            resizable: false,
-            useContentSize: true,
-            frame: false
-        });
-        child.setMenu(null);
+    // createsearchWindowWindow: () => {
+    //     searchWindow = new BrowserWindow({
+    //         parent: mainWindow,
+    //         width: 655,
+    //         height: 300,
+    //         resizable: false,
+    //         useContentSize: true,
+    //         frame: false
+    //     });
+    //     searchWindow.setMenu(null);
 
-        child.loadURL(url.format({
-            pathname: path.join(__dirname, 'app/src/result.html'),
-            protocol: 'file:',
-            slashes: true
-        }));
+    //     searchWindow.loadURL(url.format({
+    //         pathname: path.join(__dirname, 'app/src/result.html'),
+    //         protocol: 'file:',
+    //         slashes: true
+    //     }));
 
-        child.on('closed', () => {
-            child = null
-        });
-    }
+    //     searchWindow.on('closed', () => {
+    //         searchWindow = null
+    //     });
+    // }
 }
-
-// exports.createWindow = function createWindow() {
-//     win = new BrowserWindow({
-//         width: 655,
-//         height: 460,
-//         resizable: false,
-//         frame: false
-//     });
-//     win.setMenu(null);
-
-//     // Menu.setApplicationMenu(appMenu);
-
-//     // win.webContents.openDevTools();
-
-//     // tray = new Tray(config.resources.tray.icon);
-//     // tray.setToolTip("LinearVaccine");
-//     // tray.setContextMenu(trayMenu);
-
-//     win.loadURL(url.format({
-//         pathname: path.join(__dirname, 'app/src/index.html'),
-//         protocol: 'file:',
-//         slashes: true
-//     }));
-
-//     win.on('closed', () => {
-//         win = null
-//     });
-// }
-
-// exports.createSearchWindow = function createSearchWindow() {
-//     child = new BrowserWindow({
-//         parent: win,
-//         width: 655,
-//         height: 300,
-//         resizable: false,
-//         useContentSize: true,
-//         frame: false
-//     });
-//     child.setMenu(null);
-
-//     child.loadURL(url.format({
-//         pathname: path.join(__dirname, 'app/src/search.html'),
-//         protocol: 'file:',
-//         slashes: true
-//     }));
-
-//     child.on('closed', () => {
-//         child = null
-//     });
-// }
-
-// exports.createChildWindow = function createChildWindow() {
-//     child = new BrowserWindow({
-//         parent: win,
-//         width: 655,
-//         height: 300,
-//         resizable: false,
-//         useContentSize: true,
-//         frame: false
-//     });
-//     child.setMenu(null);
-
-//     child.loadURL(url.format({
-//         pathname: path.join(__dirname, 'app/src/result.html'),
-//         protocol: 'file:',
-//         slashes: true
-//     }));
-
-//     child.on('closed', () => {
-//         child = null
-//     });
-// }
