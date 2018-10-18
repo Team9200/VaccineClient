@@ -68,7 +68,7 @@ module.exports = {
         resultWindow = new BrowserWindow({
             parent: searchWindow,
             width: 655,
-            height: 300,
+            height: 330,
             resizable: false,
             useContentSize: true,
             frame: false
