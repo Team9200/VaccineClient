@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link href="../resources/css/resultCommon.css" rel="stylesheet">
     <link href="../resources/css/titlebar.css" rel="stylesheet">
+    <link href="../resources/css/common.css" rel="stylesheet">
     <link href="../resources/css/index.css" rel="stylesheet">
 </head>
 
@@ -21,6 +22,7 @@
         <div class="content">
             <p class="recently">검사 결과</p>
             <div class="container">
+                <div class="preview">검사할 파일을 선택해주세요.</div>
             </div>
         </div>
         <div class="send-unknown">
@@ -30,8 +32,13 @@
     </form>
     <script src="../resources/js/titlebar.js"></script>
     <script>
-        var title = document.querySelector('.title'); 
-        var recently = document.querySelector('.recently');
+        const {ipcRenderer} = require('electron');
+        var preview = document.querySelector('.preview'); 
+        ipcRenderer.on('getResult', (event, message) => {
+            var para = document.createElement('p');
+            para.textContent = message;
+            preview.appendChild(para);
+        });
     </script>
 </body>
 </html>

@@ -1,8 +1,5 @@
 const {
   app,
-  BrowserWindow,
-  Menu,
-  Tray,
   ipcMain
 } = require('electron');
 const window = require('./window');
@@ -28,8 +25,8 @@ app.on('activate', () => {
 });
 
 ipcMain.on('getFile', function (event, message) {
-  console.log(message);
-
+  // this is a file path
+  console.log(message); 
   var options = {
     mode: 'text',
     // pythonOptions: ['-u'],
@@ -39,10 +36,12 @@ ipcMain.on('getFile', function (event, message) {
 
   PythonShell.run('linvlib.py', options, function (err, results) {
     if (err) console.log(err);
+    // this is a vaccine result
     console.log(results);
-    var result = results;
-  })
-  window.createChildWindow();
+    window.createResultWindow(results);
+    // event.sender.send('getResult', results);
+  });
+  // window.createResultWindow();
 });
 
 ipcMain.on('menu', function (event, message) {

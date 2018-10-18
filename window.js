@@ -8,10 +8,11 @@ const trayMenu = require('./menu/TrayMenu');
 // const config = require('./config/config');
 const path = require('path');
 const url = require('url');
-const info = require('./config/mainWindowdowInfo');
+const info = require('./config/windowInfo');
 
 let mainWindow = null;
 let searchWindow = null;
+let resultWindow = null;
 // let tray = null;
 
 module.exports = {
@@ -46,13 +47,13 @@ module.exports = {
         searchWindow = new BrowserWindow({
             parent: mainWindow,
             width: 655,
-            height: 300,
+            height: 330,
             resizable: false,
             useContentSize: true,
             frame: false
         });
         searchWindow.setMenu(null);
-
+        
         searchWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'app/src/search.html'),
             protocol: 'file:',
@@ -63,25 +64,28 @@ module.exports = {
             searchWindow = null
         });
     },
-    // createsearchWindowWindow: () => {
-    //     searchWindow = new BrowserWindow({
-    //         parent: mainWindow,
-    //         width: 655,
-    //         height: 300,
-    //         resizable: false,
-    //         useContentSize: true,
-    //         frame: false
-    //     });
-    //     searchWindow.setMenu(null);
+    createResultWindow: (results) => {
+        resultWindow = new BrowserWindow({
+            parent: searchWindow,
+            width: 655,
+            height: 300,
+            resizable: false,
+            useContentSize: true,
+            frame: false
+        });
+        resultWindow.setMenu(null);
+        resultWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'app/src/result.html'),
+            protocol: 'file:',
+            slashes: true
+        }));
 
-    //     searchWindow.loadURL(url.format({
-    //         pathname: path.join(__dirname, 'app/src/result.html'),
-    //         protocol: 'file:',
-    //         slashes: true
-    //     }));
+        resultWindow.webContents.on('did-finish-load', () => {
+            resultWindow.webContents.send('getResult', results);
+        });
 
-    //     searchWindow.on('closed', () => {
-    //         searchWindow = null
-    //     });
-    // }
+        resultWindow.on('closed', () => {
+            resultWindow = null
+        });
+    }
 }

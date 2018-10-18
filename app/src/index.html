@@ -44,43 +44,10 @@
             ipcRenderer
         } = require('electron');
         var search = document.getElementById('search');
-        // var start = document.getElementById('start');
-        var input = document.querySelector('input');
-        var preview = document.querySelector('.preview'); 
 
-        function getFileInfo() {
-            while (preview.firstChild) {
-                preview.removeChild(preview.firstChild);
-            }
-
-            var curFiles = input.files;
-            if (curFiles.length === 0) {
-                var fileinfo = document.createElement('p');
-                fileinfo.textContent = 'No file selected';
-            } else {
-                var list = document.createElement('ol');
-                preview.appendChild(list);
-                
-                var listItem = document.createElement('li');
-                var para = document.createElement('p');
-                if (curFiles[0]) {
-                    para.textContent =
-                        ' file path : ' + curFiles[0].path + 
-                        ' [' + curFiles[0].size + ' Byte]';
-                    listItem.appendChild(para);
-                }
-                list.appendChild(listItem);
-            }
-        }
-
-        // input.addEventListener('change', getFileInfo);
         search.addEventListener('click', function () {
             ipcRenderer.send('menu', 'search');
         });
-        // start.addEventListener('click', function() {
-        //     var curFiles = input.files;
-        //     ipcRenderer.send('getFile', curFiles[0].path);
-        // }, false)
     </script>
 </body>
 

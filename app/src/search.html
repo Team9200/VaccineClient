@@ -1,8 +1,11 @@
 <html>
+
 <head>
-    <title>LinearVaccine - 검사</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shirink-to-fit=no">
+    <title>LinearVaccine - 검사 결과</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shirink-to-fit=no"> -->
     <meta charset="utf-8">
+    <!-- <link href="../resources/css/resultCommon.css" rel="stylesheet"> -->
+    <link href="../resources/css/common.css" rel="stylesheet">
     <link href="../resources/css/titlebar.css" rel="stylesheet">
     <link href="../resources/css/index.css" rel="stylesheet">
 </head>
@@ -18,13 +21,67 @@
         </div>
 
         <div class="content">
+            <p class="recently">검사</p>
             <div class="container">
+                <input type="file" id="file" name="file">
+                <br><br>
+                <div class="preview">검사할 파일을 선택해주세요.</div>
+                <button style="background-color: indigo;" class="button" id="start">검사</button>
+                <div class="result"></div>
+
             </div>
         </div>
     </form>
     <script src="../resources/js/titlebar.js"></script>
     <script>
-        
+        const {
+            ipcRenderer
+        } = require('electron');
+
+        var start = document.getElementById('start');
+        var input = document.querySelector('input');
+        var preview = document.querySelector('.preview'); 
+        // var result = document.querySelector('.result');
+
+        function getFileInfo() {
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+
+            var curFiles = input.files;
+            if (curFiles.length === 0) {
+                var fileinfo = document.createElement('p');
+                fileinfo.textContent = 'No file selected';
+            } else {
+                var list = document.createElement('ol');
+                preview.appendChild(list);
+                
+                var listItem = document.createElement('li');
+                var para = document.createElement('p');
+                if (curFiles[0]) {
+                    para.textContent =
+                        'path: ' + curFiles[0].path + 
+                        ' [' + curFiles[0].size + ' Byte]';
+                    listItem.appendChild(para);
+                }
+                list.appendChild(listItem);
+            }
+        }
+
+        input.addEventListener('change', getFileInfo);
+
+        start.addEventListener('click', function() {
+            var curFiles = input.files;
+            ipcRenderer.send('getFile', curFiles[0].path);
+        }, false);
+
+        // ipcRenderer.on('getResult', (event, message) => {
+        //     var resultText = document.createElement('p');
+        //     resultText.textContent = message;
+        //     result.appendChild(resultText);
+        // });
+
     </script>
 </body>
+
 </html>
