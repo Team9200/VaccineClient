@@ -20,16 +20,16 @@
         </div>
     
         <div class="content">
-            <p class="recently">마지막 검사 시간: 2018년 10월 14일 00시 40분 48초</p>
+            <!-- <p class="recently">마지막 검사 시간: 2018년 10월 14일 00시 40분 48초</p> -->
             <div class="container">
-                <button class="button grid-1" id="start">검사</button>
+                <button class="button grid-1" id="search">검사</button>
                 <button class="button grid-2">검역소</button>
                 <button class="button grid-3">로그</button>
             </div>
-            <label for="image_uploads">검사할 파일  :</label>
+            <!-- <label for="image_uploads">검사할 파일  :</label>
             <input type="file" id="file" name="file">
             <br><br>
-            <div class="preview">검사할 파일을 선택해주세요.</div>
+            <div class="preview">검사할 파일을 선택해주세요.</div> -->
         </div>
     </form>
 
@@ -43,8 +43,8 @@
         const {
             ipcRenderer
         } = require('electron');
-
-        var start = document.getElementById('start');
+        var search = document.getElementById('search');
+        // var start = document.getElementById('start');
         var input = document.querySelector('input');
         var preview = document.querySelector('.preview'); 
 
@@ -73,12 +73,14 @@
             }
         }
 
-        input.addEventListener('change', getFileInfo);
-
-        start.addEventListener('click', function() {
-            var curFiles = input.files;
-            ipcRenderer.send('getFile', curFiles[0].path);
-        }, false)
+        // input.addEventListener('change', getFileInfo);
+        search.addEventListener('click', function () {
+            ipcRenderer.send('menu', 'search');
+        });
+        // start.addEventListener('click', function() {
+        //     var curFiles = input.files;
+        //     ipcRenderer.send('getFile', curFiles[0].path);
+        // }, false)
     </script>
 </body>
 
