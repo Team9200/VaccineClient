@@ -27,7 +27,7 @@ module.exports = {
 
         // Menu.setApplicationMenu(appMenu);
 
-        // mainWindow.webContents.openDevTools();
+        //mainWindow.webContents.openDevTools();
 
         // tray = new Tray(config.resources.tray.icon);
         // tray.setToolTip("LinearVaccine");
