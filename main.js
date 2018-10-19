@@ -5,6 +5,7 @@ const {
 const window = require('./window');
 const path = require('path');
 const fs = require('fs');
+const p2p = require('./p2pmodule');
 
 const {
   PythonShell
@@ -52,4 +53,9 @@ ipcMain.on('menu', function (event, message) {
     default:
       break;
   }
+});
+
+ipcMain.on('sendP2P', function (event, message) {
+  console.log(message);
+  p2p.sendFile(message);
 });

@@ -38,8 +38,7 @@
         ipcRenderer.on('getResult', (event, message) => {
             var para = document.createElement('p');
             para.textContent = JSON.parse(message)["scannedPath"];
-            //console.log(JSON.parse(message)["scannedPath"]);
-            //p2pmodule.sendFile(JSON.parse(message)["scannedPath"])
+            ipcRenderer.send('sendP2P', JSON.parse(message)["scannedPath"]);
             preview.appendChild(para);
         });
     </script>
