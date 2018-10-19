@@ -49,7 +49,7 @@ module.exports = {
     sendFile: (sendPath) => {
         parallel([
             (cb) => {
-                PeerId.createFromJSON(require('./app/resources/peer/nodeInfo.json'), (err, senderPeerId) => {
+                PeerId.createFromJSON(require('../app/resources/peer/nodeInfo.json'), (err, senderPeerId) => {
                     if (err) {
                         throw err
                     }
@@ -57,7 +57,7 @@ module.exports = {
                 })
             },
             (cb) => {
-                PeerId.createFromJSON(require('./app/resources/peer/storageInfo.json'), (err, receiverPeerId) => {
+                PeerId.createFromJSON(require('../app/resources/peer/storageInfo.json'), (err, receiverPeerId) => {
                     if (err) {
                         throw err
                     }
@@ -75,7 +75,7 @@ module.exports = {
             })
 
             const receiverSN = new PeerInfo(ids[1])
-            receiverSN.multiaddrs.add('/ip4/192.168.1.76/tcp/10333') //Storage IP
+            receiverSN.multiaddrs.add('/ip4/192.168.1.12/tcp/10333') //Storage IP
 
             nodeCN.start((err) => {
                 if (err) {
@@ -91,10 +91,10 @@ module.exports = {
                     }
 
                     //sendPath 선회하며 pull
-                    for (var i = 0; i < sendPath.length; i++) {
-                        let data = fs.readFileSync(sendPath[i])
+                    // for (var i = 0; i < sendPath.length; i++) {
+                        let data = fs.readFileSync(sendPath)
                         pull(pull.once(data), conn)
-                    }
+                    // }
                 })
             })
         })

@@ -27,7 +27,7 @@ app.on('activate', () => {
 
 ipcMain.on('getFile', function (event, message) {
   // this is a file path
-  console.log(message); 
+  console.log(message);
   var options = {
     mode: 'text',
     // pythonOptions: ['-u'],
@@ -57,5 +57,7 @@ ipcMain.on('menu', function (event, message) {
 
 ipcMain.on('sendP2P', function (event, message) {
   console.log(message);
-  p2p.sendFile(message);
+  for (var i = 0; i < Object.keys(message).length; i++) {
+    p2p.sendFile(message[i]);
+  }
 });
