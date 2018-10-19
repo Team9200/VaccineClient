@@ -5,7 +5,7 @@ const {
 const window = require('./window');
 const path = require('path');
 const fs = require('fs');
-const p2p = require('./p2pmodule');
+const p2p = require('./util/p2pmodule');
 
 const {
   PythonShell
