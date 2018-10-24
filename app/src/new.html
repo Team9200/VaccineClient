@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <title>LinearVaccine</title>
+    <link href="../resources/css/new.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li id="link-one">
+                <div>1</div>
+                <div>메인</div>
+            </li>
+            <li id="link-two">
+                <div>2</div>
+                <div>검사</div>
+            </li>
+            <li id="link-three">
+                <div>3</div>
+                <div>로그</div>
+            </li>
+            <li id="link-four">
+                <div>4</div>
+                <div>검역소</div>
+            </li>
+            <li id="link-five">
+                <div>5</div>
+                <div>공지사항</div>
+            </li>
+        </ul>
+    </nav>
+    <div class="desktop" id="one">
+        <h1>Main</h1>
+        <p>This is the Main</p>
+        <p>안녕하세요. 리니어백신입니다.</p>
+    </div>
+    <div class="desktop" id="two">
+        <h1>Find Malwares</h1>
+        <p>백신 검사</p>
+        <p>검사 UI</p>
+    </div>
+    <div class="desktop" id="three">
+        <h1>Log</h1>
+        <p>로그</p>
+        <p>로그 UI</p>
+    </div>
+    <div class="desktop" id="four">
+        <h1>검역소</h1>
+        <p>검역소</p>
+        <p>검역소 UI</p>
+    </div>
+    <div class="desktop" id="five">
+        <h1>Notice</h1>
+        <p>공지사항</p>
+        <p>공지사항 UI</p>
+    </div>
+
+    <script>
+        var desktops = document.querySelectorAll('.desktop');
+
+        function hide(element) {
+            element.style.setProperty('left', '-100%', element.style.getPropertyPriority('left'));
+        }
+
+        function hideAll() {
+            for (var i = 0; i < desktops.length; i++) {
+                hide(desktops[i]);
+            }
+        }
+
+        function show(element) {
+            element.style.setProperty('left', '0', element.style.getPropertyPriority('left'));
+        }
+
+        document.getElementById('link-one').addEventListener('click', function () {
+            hideAll();
+            show(document.getElementById('one'));
+        }, false);
+
+        document.getElementById('link-two').addEventListener('click', function () {
+            hideAll();
+            show(document.getElementById('two'));
+        }, false);
+
+        document.getElementById('link-three').addEventListener('click', function () {
+            hideAll();
+            show(document.getElementById('three'));
+        }, false);
+
+        document.getElementById('link-four').addEventListener('click', function () {
+            hideAll();
+            show(document.getElementById('four'));
+        }, false);
+
+        document.getElementById('link-five').addEventListener('click', function () {
+            hideAll();
+            show(document.getElementById('five'));
+        }, false);
+
+        show(document.getElementById('one'));
+    </script>
+</body>
+
+</html>

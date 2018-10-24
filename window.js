@@ -21,7 +21,7 @@ module.exports = {
             width: 655,
             height: 460,
             resizable: false,
-            frame: false
+            // frame: false
         });
         mainWindow.setMenu(null);
 
@@ -34,7 +34,7 @@ module.exports = {
         // tray.setContextMenu(trayMenu);
 
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'app/src/index.html'),
+            pathname: path.join(__dirname, 'app/src/new.html'),
             protocol: 'file:',
             slashes: true
         }));

@@ -22,7 +22,7 @@
         <div class="content">
             <p class="recently">검사 결과</p>
             <div class="container">
-                <div class="preview">검사할 파일을 선택해주세요.</div>
+                <div class="preview"></div>
             </div>
         </div>
         <div class="send-unknown">
@@ -33,12 +33,22 @@
     <script src="../resources/js/titlebar.js"></script>
     <script>
         //require('../resources/js/p2pmodule');
-        const {ipcRenderer} = require('electron');
+        const {ipcRenderer, remote} = require('electron');
         var preview = document.querySelector('.preview'); 
+        var send = document.querySelector('.send-btn');
+        var nosend = document.querySelector('.no-send-btn');
         ipcRenderer.on('getResult', (event, message) => {
             var para = document.createElement('p');
-            para.textContent = JSON.parse(message)["scannedPath"];
-            ipcRenderer.send('sendP2P', JSON.parse(message)["scannedPath"]);
+            para.textContent = "검사된 파일 수: " + JSON.parse(message)["Files"] + "개" + " / 발견된 악성코드: " + JSON.parse(message)["InfectedFiles"] + "개";
+            send.addEventListener('click', function () {
+                ipcRenderer.send('sendP2P', JSON.parse(message)["scannedPath"]); 
+                const window = remote.getCurrentWindow();
+                window.close();               
+            });
+            nosend.addEventListener('click', function () {
+                const window = remote.getCurrentWindow();
+                window.close();               
+            });
             preview.appendChild(para);
         });
     </script>
