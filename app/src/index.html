@@ -23,8 +23,8 @@
             <!-- <p class="recently">마지막 검사 시간: 2018년 10월 14일 00시 40분 48초</p> -->
             <div class="container">
                 <button class="button grid-1" id="search">검사</button>
-                <button class="button grid-2">검역소</button>
-                <button class="button grid-3">로그</button>
+                <button class="button grid-2" id="quarantine">검역소</button>
+                <button class="button grid-3" id="log">로그</button>
             </div>
             <!-- <label for="image_uploads">검사할 파일  :</label>
             <input type="file" id="file" name="file">
@@ -44,9 +44,21 @@
             ipcRenderer
         } = require('electron');
         var search = document.getElementById('search');
+        var quarantine = document.getElementById('quarantine');
+        var log = document.getElementById('log');
 
         search.addEventListener('click', function () {
             ipcRenderer.send('menu', 'search');
+        });
+
+        quarantine.addEventListener('click', function () {
+            console.log("quarantineWindow clicked");
+            ipcRenderer.send('quarantine');
+        });
+        
+        log.addEventListener('click', function () {
+            console.log("log clicked");
+            ipcRenderer.send('log');
         });
     </script>
 </body>

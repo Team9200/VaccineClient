@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="../resources/css/common.css" rel="stylesheet">
+        <link href="../resources/css/titlebar.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="title-bar">
+            <div id="title">LinearVaccine - 로그</div>
+            <div id="title-bar-btns">
+                <button id="min-btn">-</button>
+                <button id="close-btn">x</button>
+            </div>
+        </div>
+        <h1>로그</h1>
+        <p id="logList">
+            <ul id="logListUl">
+
+            </ul>
+        </p>
+    </body>
+    <script src="../resources/js/titlebar.js"></script>
+    <script>
+        const {
+            ipcRenderer
+        } = require('electron');
+
+        var logList = document.getElementById('logList')
+
+        ipcRenderer.on("getLogList", (event, message) => {
+            messageLogList = message.toString().split('\r\n');
+            console.log(messageLogList);
+            
+            messageLogList.forEach((element) => {
+                var logListUl = document.getElementById('logListUl')
+                var logListLi = document.createElement("li");
+                logListLi.appendChild(document.createTextNode(element));
+                logListUl.appendChild(logListLi);
+            });
+        })
+        
+    </script>
+</html>

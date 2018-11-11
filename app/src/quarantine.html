@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="../resources/css/common.css" rel="stylesheet">
+        <link href="../resources/css/titlebar.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="title-bar">
+            <div id="title">LinearVaccine - 검역소</div>
+            <div id="title-bar-btns">
+                <button id="min-btn">-</button>
+                <button id="close-btn">x</button>
+            </div>
+        </div>
+        <h1>검역소</h1>
+        <p id="quarantineList">
+        </p>
+    </body>
+    <script src="../resources/js/titlebar.js"></script>
+    <script>
+        const {
+            ipcRenderer
+        } = require('electron');
+
+        var quarantineList = document.getElementById('quarantineList')
+
+        ipcRenderer.on("getQuarantineList", (event, message) => {
+            quarantineList.innerHTML = message;
+        })
+        
+    </script>
+</html>

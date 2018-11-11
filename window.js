@@ -13,6 +13,8 @@ const info = require('./config/windowInfo');
 let mainWindow = null;
 let searchWindow = null;
 let resultWindow = null;
+let quarantineWindow = null;
+let logWindow = null;
 // let tray = null;
 
 module.exports = {
@@ -34,7 +36,7 @@ module.exports = {
         // tray.setContextMenu(trayMenu);
 
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, 'app/src/new.html'),
+            pathname: path.join(__dirname, 'app/src/index.html'),
             protocol: 'file:',
             slashes: true
         }));
@@ -87,5 +89,61 @@ module.exports = {
         resultWindow.on('closed', () => {
             resultWindow = null
         });
-    }
+    },
+    createQuarantineWindow: (quarntineList) => {
+        console.log("quarantineWindow Created");
+        quarantineWindow = new BrowserWindow({
+            parent: mainWindow,
+            width: 655,
+            height: 330,
+            resizable: false,
+            useContentSize: true,
+            frame: false
+        });
+        quarantineWindow.setMenu(null);
+
+        //quarantineWindow.webContents.openDevTools();
+
+        quarantineWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'app/src/quarantine.html'),
+            protocol: 'file:',
+            slashes: true
+        }));
+
+        quarantineWindow.webContents.on('did-finish-load', () => {
+            quarantineWindow.webContents.send('getQuarantineList', quarntineList);
+        });
+
+        quarantineWindow.on('closed', () => {
+            quarantineWindow = null
+        });
+    },
+    createLogWindow: (logList) => {
+        console.log("log Created");
+        logWindow = new BrowserWindow({
+            parent: mainWindow,
+            width: 655,
+            height: 330,
+            resizable: false,
+            useContentSize: true,
+            frame: false
+        });
+        logWindow.setMenu(null);
+
+        logWindow.webContents.openDevTools();
+
+        logWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'app/src/log.html'),
+            protocol: 'file:',
+            slashes: true
+        }));
+
+        logWindow.webContents.on('did-finish-load', () => {
+            logWindow.webContents.send('getLogList', logList);
+        });
+
+        logWindow.on('closed', () => {
+            logWindow = null
+        });
+    },
 }

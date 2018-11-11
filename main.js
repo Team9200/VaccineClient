@@ -6,6 +6,7 @@ const window = require('./window');
 const path = require('path');
 const fs = require('fs');
 const p2p = require('./util/p2pmodule');
+require('date-utils');
 
 const {
   PythonShell
@@ -42,6 +43,14 @@ ipcMain.on('getFile', function (event, message) {
     window.createResultWindow(results);
     // event.sender.send('getResult', results);
   });
+  var dt = new Date();
+  var d = dt.toFormat('YYYY-MM-DD HH24:MI:SS');
+
+  var data = '[SCAN]'+ d + 'start - ' + message +'\r\n';
+  fs.appendFile('log.txt', data, (err) => {
+    if(err) console.log(err);
+    console.log("add write done");
+  });
   // window.createResultWindow();
 });
 
@@ -53,6 +62,25 @@ ipcMain.on('menu', function (event, message) {
     default:
       break;
   }
+});
+
+ipcMain.on('quarantine', function (event, message) { //검역소창 띄우기
+  const quarDir = './vaccine/engine/tmp';
+  const quarList = [];
+  fs.readdir(quarDir, (err, files) => {
+    files.forEach(file => {
+      console.log(file);
+      quarList.push(file);
+    });
+    window.createQuarantineWindow(quarList);
+  })
+});
+
+ipcMain.on('log', function (event, message) { //로그창 띄우기
+  fs.readFile('log.txt', (err, data) => {
+    console.log(data);
+    window.createLogWindow(data);
+  })
 });
 
 ipcMain.on('sendP2P', function (event, message) {
