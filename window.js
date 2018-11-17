@@ -20,10 +20,10 @@ let logWindow = null;
 module.exports = {
     createWindow: () => {
         mainWindow = new BrowserWindow({
-            width: 655,
-            height: 460,
+            width: 645,
+            height: 330,
             resizable: false,
-            // frame: false
+            frame: false
         });
         mainWindow.setMenu(null);
 
@@ -48,7 +48,7 @@ module.exports = {
     createSearchWindow: () => {
         searchWindow = new BrowserWindow({
             parent: mainWindow,
-            width: 655,
+            width: 660,
             height: 330,
             resizable: false,
             useContentSize: true,
@@ -130,7 +130,7 @@ module.exports = {
         });
         logWindow.setMenu(null);
 
-        logWindow.webContents.openDevTools();
+        // logWindow.webContents.openDevTools();
 
         logWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'app/src/log.html'),
@@ -144,6 +144,24 @@ module.exports = {
 
         logWindow.on('closed', () => {
             logWindow = null
+        });
+    },
+    createSendFileWindow: () => {
+        SendFileWindow = new BrowserWindow({
+            parent: mainWindow,
+            width: 400,
+            height: 280,
+            resizable: false,
+            useContentSize: true,
+            frame: false
+        });
+        SendFileWindow.setMenu(null);        
+        SendFileWindow.loadURL(`file://${__dirname}/app/src/sendFile.html?senderId=test&receiverId=test2`);
+
+        SendFileWindow.webContents.openDevTools();
+
+        SendFileWindow.on('closed', () => {
+            SendFileWindow = null
         });
     },
 }

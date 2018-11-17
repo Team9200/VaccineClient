@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="send-unknown">
-            <button class="send-btn">전송</button>
+            <button class="send-btn" id="send-btn">전송</button>
             <button class="no-send-btn">아니요</button>
         </div>
     </form>
@@ -35,21 +35,21 @@
         //require('../resources/js/p2pmodule');
         const {ipcRenderer, remote} = require('electron');
         var preview = document.querySelector('.preview'); 
-        var send = document.querySelector('.send-btn');
+        var send = document.querySelector('#send-btn');
         var nosend = document.querySelector('.no-send-btn');
         ipcRenderer.on('getResult', (event, message) => {
             var para = document.createElement('p');
-            para.textContent = "검사된 파일 수: " + JSON.parse(message)["Files"] + "개" + " / 발견된 악성코드: " + JSON.parse(message)["InfectedFiles"] + "개";
-            send.addEventListener('click', function () {
-                ipcRenderer.send('sendP2P', JSON.parse(message)["scannedPath"]); 
-                const window = remote.getCurrentWindow();
-                window.close();               
-            });
-            nosend.addEventListener('click', function () {
-                const window = remote.getCurrentWindow();
-                window.close();               
-            });
+            para.textContent = "검사된 파일 수: " + JSON.parse(message).Files + "개" + " / 발견된 악성코드: " + JSON.parse(message).InfectedFiles + "개";
             preview.appendChild(para);
+        });
+        send.addEventListener('click', function () {
+            ipcRenderer.send('sendP2P'); 
+            const window = remote.getCurrentWindow();
+            window.close();               
+        });
+        nosend.addEventListener('click', function () {
+            const window = remote.getCurrentWindow();
+            window.close();               
         });
     </script>
 </body>

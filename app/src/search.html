@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>LinearVaccine - 검사 결과</title>
+    <title>LinearVaccine - 검사</title>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shirink-to-fit=no"> -->
     <meta charset="utf-8">
     <link href="../resources/css/common.css" rel="stylesheet">
@@ -24,8 +24,8 @@
             <div class="container">
                 <input type="file" id="file" name="file" webkitdirectory directory>
                 <br><br>
-                <div class="preview">검사할 파일을 선택해주세요.</div>
-                <button style="background-color: indigo;" class="button" id="start">검사</button>
+                <div class="preview" id="preview">검사할 파일을 선택해주세요.</div>
+                <button style="background-color: indigo; padding:10px; " class="button" id="start">검사</button>
                 <div class="result"></div>
 
             </div>
@@ -37,7 +37,7 @@
             ipcRenderer
         } = require('electron');
 
-        var start = document.getElementById('start');
+        var start = document.querySelector('#start');
         var input = document.querySelector('input');
         var preview = document.querySelector('.preview'); 
         // var result = document.querySelector('.result');
@@ -52,18 +52,9 @@
                 var fileinfo = document.createElement('p');
                 fileinfo.textContent = 'No file selected';
             } else {
-                var list = document.createElement('ol');
-                preview.appendChild(list);
-                
-                var listItem = document.createElement('li');
-                var para = document.createElement('p');
                 if (curFiles[0]) {
-                    para.textContent =
-                        'path: ' + curFiles[0].path + 
-                        ' [' + curFiles[0].size + ' Byte]';
-                    listItem.appendChild(para);
+                    document.getElementById("preview").innerHTML ='path: ' + curFiles[0].path;
                 }
-                list.appendChild(listItem);
             }
         }
 
@@ -72,7 +63,9 @@
         start.addEventListener('click', function() {
             var curFiles = input.files;
             ipcRenderer.send('getFile', curFiles[0].path);
-        }, false);
+            const window = remote.getCurrentWindow();
+            window.close();
+        });
 
         // ipcRenderer.on('getResult', (event, message) => {
         //     var resultText = document.createElement('p');

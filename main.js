@@ -41,6 +41,7 @@ ipcMain.on('getFile', function (event, message) {
     // this is a vaccine result
     console.log(results);
     window.createResultWindow(results);
+    event.sender.send(JSON.stringify(results));
     // event.sender.send('getResult', results);
   });
   var dt = new Date();
@@ -84,8 +85,28 @@ ipcMain.on('log', function (event, message) { //로그창 띄우기
 });
 
 ipcMain.on('sendP2P', function (event, message) {
-  console.log(message);
-  for (var i = 0; i < Object.keys(message).length; i++) {
-    p2p.sendFile(message[i]);
-  }
+  window.createSendFileWindow();
 });
+
+const chunkSize = 16384;
+var sliced_data = '';
+var num = 0;
+ipcMain.on('fileRequest', function(event, msg) {
+    fs.readFile('./Malware.zip', function(err, data) {
+        console.log(Buffer.from(data));
+        var encoded_data = base64Encode(data);
+        for(var i=0, j=0; i<encoded_data.length; i+=chunkSize, j++) {
+            sliced_data = sliceEncodedData(encoded_data, i);
+            event.sender.send('fileRequest-reply', 'advancedEicar', num, Buffer.from(data).length, sliced_data);
+            num = num + 1;
+        }
+    });
+});
+
+function base64Encode(data) {
+    return new Buffer.from(data);
+ }; 
+
+function sliceEncodedData(encoded_data, offset) {
+    return encoded_data.slice(offset, offset+chunkSize);
+};

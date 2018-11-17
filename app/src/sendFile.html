@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <title>WebRTC JSON File Transfer</title>
+        <meta charset="utf-8">
+        <link href="../resources/css/common.css" rel="stylesheet">
+        <link href="../resources/css/titlebar.css" rel="stylesheet">
+        <link href="../resources/css/index.css" rel="stylesheet">
+    </head>
+    <body style="overflow: hidden;">
+        <form>
+            <div id="title-bar" style="text-align: center;">
+                <div id="title">File Transfer</div>
+                <div id="title-bar-btns">
+                    <button id="min-btn">-</button>
+                    <button id="close-btn">x</button>
+                </div>
+            </div>
+
+            <div class="progress" style="font-size: 25px; text-align: center; padding-top: 50px;">
+                <div class="label" id="sendText">보내는 중... </div><br>
+                <progress id="sendProgress" max="100" value="20"></progress>
+                &nbsp;&nbsp;<button id="okBtn">확인</button>
+            </div>
+
+        <div class="content">
+            <div id = "chatarea"></div> 
+        </div>
+        <script src="../resources/js/titlebar.js"></script>
+        <script>
+            var okBtn = document.querySelector('#okBtn');
+            okBtn.disabled = true;
+            var name; 
+            var connectedUser;
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            var senderId = getParameterByName('senderId');
+            var receiverId = getParameterByName('receiverId');
+
+            var conn = new WebSocket('ws://172.20.10.5:9090'); 
+
+            conn.onopen = function () { 
+                console.log("Connected to the signaling server");
+
+                name = senderId; 
+    
+                if (name.length > 0) { 
+                    sendSignal({ 
+                        type: "login", 
+                        name: name 
+                    }); 
+                }
+            };
+    
+            conn.onmessage = function (msg) { 
+                console.log("Got message", msg.data);
+                if (msg.data) { 
+                    var data = JSON.parse(msg.data); 
+    
+                    switch(data.type) { 
+                        case "login": 
+                            handleLogin(data.success); 
+                            break; 
+                        case "offer": 
+                            handleOffer(data.offer, data.name); 
+                            break; 
+                        case "answer": 
+                            handleAnswer(data.answer); 
+                            break; 
+                        case "candidate": 
+                            handleCandidate(data.candidate); 
+                            break; 
+                        case "leave": 
+                            handleLeave(); 
+                            break; 
+                        default: 
+                            break; 
+                    }
+                }
+            }; 
+
+            conn.onerror = function (err) { 
+                console.log("Got error", err); 
+            }; 
+
+            function sendSignal(message) { 
+                if (connectedUser) { 
+                    message.name = connectedUser; 
+                } 
+                conn.send(JSON.stringify(message)); 
+            };
+
+            var chatArea = document.querySelector('#chatarea'); 
+            var yourConn; 
+            var dataChannel;
+    
+            function handleLogin(success) { 
+                if (success === false) {
+                    alert("Ooops...try a different username"); 
+                } else { 
+                    var configuration = { 
+                        "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }] 
+                    }; 
+        
+                    yourConn = new webkitRTCPeerConnection(configuration); 
+        
+                    yourConn.onicecandidate = function (event) { 
+                        if (event.candidate) { 
+                            sendSignal({ 
+                                type: "candidate", 
+                                candidate: event.candidate 
+                            }); 
+                        } 
+                    }; 
+        
+                    dataChannel = yourConn.createDataChannel("channel1", {reliable: false}); 
+        
+                    dataChannel.onerror = function (error) { 
+                        console.log("Ooops...error:", error); 
+                    }; 
+            
+                    yourConn.ondatachannel = function (event) {
+                        event.channel.onopen = function() {
+                            console.log('Data channel is open and ready to be used.');
+                            sendFile();
+                        };
+            
+                        event.channel.onmessage = function(event){
+                            chatArea.innerHTML += connectedUser + ": " + event.data + "<br />"; 
+                        };
+                    };
+                    dataChannel.onclose = function () { 
+                        console.log("data channel is closed");
+                        var sendProgress = document.querySelector('#sendProgress');
+                        sendProgress.value = '100';
+                        document.getElementById("sendText").innerHTML = '전송 완료!!';
+                        document.getElementById("okBtn").disabled = false;
+                    };
+                    sendOffer();
+                }
+            };
+    
+            function sendOffer () { 
+                var callToUsername = receiverId; 
+    
+                if (callToUsername.length > 0) { 
+                    connectedUser = callToUsername; 
+                    yourConn.createOffer(function (offer) { 
+                        sendSignal({ 
+                            type: "offer", 
+                            offer: offer 
+                        }); 
+                        yourConn.setLocalDescription(offer); 
+                    }, function (error) { 
+                        alert("Error when creating an offer"); 
+                    }); 
+                }
+            };
+    
+            function handleOffer(offer, name) { 
+                connectedUser = name; 
+                yourConn.setRemoteDescription(new RTCSessionDescription(offer)); 
+    
+                yourConn.createAnswer(function (answer) { 
+                    yourConn.setLocalDescription(answer); 
+                    sendSignal({ 
+                        type: "answer", 
+                        answer: answer 
+                    }); 
+                }, function (error) { 
+                    alert("Error when creating an answer"); 
+                });
+    
+            };
+    
+            function handleAnswer(answer) { 
+                yourConn.setRemoteDescription(new RTCSessionDescription(answer)); 
+            };
+    
+            function handleCandidate(candidate) { 
+                yourConn.addIceCandidate(new RTCIceCandidate(candidate)); 
+            };
+
+            /*
+            hangUpBtn.addEventListener("click", function () { 
+                sendSignal({ 
+                    type: "leave" 
+                }); 
+    
+                handleLeave(); 
+            });
+            */
+
+            function handleLeave() { 
+                connectedUser = null; 
+                yourConn.close(); 
+                yourConn.onicecandidate = null; 
+            };
+
+            function sendJSON(data) { 
+                var val = data; 
+                // chatArea.innerHTML += "send JSON <br />"; 
+
+                dataChannel.send(val); 
+            };
+        </script>
+        <script>
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            var senderId = getParameterByName('senderId');
+            var receiverId = getParameterByName('receiverId');
+            const {ipcRenderer, remote} = require('electron');
+            function sendFile() {
+                var Malware = new Object();
+                if(senderId&&receiverId) {
+                    sendProgress.value = '40';
+                    ipcRenderer.send('fileRequest');
+                    ipcRenderer.on('fileRequest-reply', (event, filename, num, size, binary) => {
+                        Malware.filename = filename;
+                        Malware.num = num;
+                        Malware.size = size;
+                        Malware.binary = binary;
+                        sendJSON(JSON.stringify(Malware));
+                        console.log(JSON.stringify(Malware));
+                    });
+                    sendProgress.value = '70';
+                }
+            };
+            okBtn.addEventListener("click", function () {
+                const window = remote.getCurrentWindow();
+                window.close();     
+            });
+        </script>
+    </body>
+</html>
