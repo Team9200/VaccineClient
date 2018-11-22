@@ -164,3 +164,11 @@
 [SCAN]2018-11-17 06:30:41start - C:\Users\DingDong\Desktop\tetete
 [SCAN]2018-11-17 06:32:02start - C:\Users\DingDong\Desktop\tetete
 [SCAN]2018-11-17 06:35:48start - C:\Users\DingDong\Desktop\tetete
+[SCAN]2018-11-22 13:54:25start - C:\Users\true\Documents\GitHub\eicar - 복사본 (2)
+[SCAN]2018-11-22 14:00:06start - C:\Users\true\Documents\GitHub\eicar - ë³µì¬ë³¸ (2)
+[SCAN]2018-11-22 14:00:31start - C:\Users\true\Documents\GitHub\eicar - ë³µì¬ë³¸ (3)
+[SCAN]2018-11-22 14:02:16start - C:\Users\true\Documents\GitHub\eicar - 복사본 (3)
+[SCAN]2018-11-22 14:03:25start - C:\Users\true\Documents\GitHub\eicar - 복사본 (3)
+[SCAN]2018-11-22 14:05:18start - C:\Users\true\Documents\GitHub\eicar - 복사본 (3)
+[SCAN]2018-11-22 14:06:39start - C:\Users\true\Documents\GitHub\eicar - 복사본 (3)
+[SCAN]2018-11-22 14:11:57start - C:\Users\true\Documents\GitHub\eicar - 복사본 (4)

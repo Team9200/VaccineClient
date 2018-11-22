@@ -28,7 +28,8 @@ app.on('activate', () => {
 
 ipcMain.on('getFile', function (event, message) {
   // this is a file path
-  console.log(message);
+  //utfPath = utf8.encode(message);
+  //console.log(utfPath);
   var options = {
     mode: 'text',
     // pythonOptions: ['-u'],
@@ -39,11 +40,15 @@ ipcMain.on('getFile', function (event, message) {
   PythonShell.run('linvlib.py', options, function (err, results) {
     if (err) console.log(err);
     // this is a vaccine result
+    //sonRet = JSON.parse(results)
+    //jsonRet.
     console.log(results);
+
     window.createResultWindow(results);
     event.sender.send(JSON.stringify(results));
     // event.sender.send('getResult', results);
   });
+  /*
   var dt = new Date();
   var d = dt.toFormat('YYYY-MM-DD HH24:MI:SS');
 
@@ -52,6 +57,7 @@ ipcMain.on('getFile', function (event, message) {
     if(err) console.log(err);
     console.log("add write done");
   });
+  */
   // window.createResultWindow();
 });
 

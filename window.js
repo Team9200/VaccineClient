@@ -76,6 +76,9 @@ module.exports = {
             frame: false
         });
         resultWindow.setMenu(null);
+
+        resultWindow.webContents.openDevTools();
+
         resultWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'app/src/result.html'),
             protocol: 'file:',
