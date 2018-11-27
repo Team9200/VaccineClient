@@ -23,6 +23,8 @@
             <p class="recently">검사 결과</p>
             <div class="container">
                 <div class="preview"></div>
+                <ul class="detail" style="overflow:scroll">
+                </ul>
             </div>
         </div>
         <div class="send-unknown">
@@ -37,9 +39,12 @@
         var preview = document.querySelector('.preview'); 
         var send = document.querySelector('#send-btn');
         var nosend = document.querySelector('.no-send-btn');
+        var detail = document.querySelector('.detail');
+
         ipcRenderer.on('getResult', (event, message) => {
+            console.log(message, typeof(message));
             var para = document.createElement('p');
-            para.textContent = "검사된 파일 수: " + JSON.parse(message).Files + "개" + " / 발견된 악성코드: " + JSON.parse(message).InfectedFiles + "개";
+            para.textContent = "검사된 파일 수: " + message.Files + "개" + " / 발견된 악성코드: " + message.InfectedFiles + "개"; 
             preview.appendChild(para);
         });
         send.addEventListener('click', function () {

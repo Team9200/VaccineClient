@@ -1,3 +1,4 @@
+'use strict'
 const {
   app,
   ipcMain
@@ -28,8 +29,6 @@ app.on('activate', () => {
 
 ipcMain.on('getFile', function (event, message) {
   // this is a file path
-  //utfPath = utf8.encode(message);
-  //console.log(utfPath);
   var options = {
     mode: 'text',
     // pythonOptions: ['-u'],
@@ -40,15 +39,10 @@ ipcMain.on('getFile', function (event, message) {
   PythonShell.run('linvlib.py', options, function (err, results) {
     if (err) console.log(err);
     // this is a vaccine result
-    //sonRet = JSON.parse(results)
-    //jsonRet.
-    console.log(results);
-
-    window.createResultWindow(results);
-    event.sender.send(JSON.stringify(results));
-    // event.sender.send('getResult', results);
+    var retString = results.toString().replace(/'/gi, '"').replace(/u\"/gi, '"');
+    console.log(retString, typeof(retString));
+    window.createResultWindow(JSON.parse(retString));
   });
-  /*
   var dt = new Date();
   var d = dt.toFormat('YYYY-MM-DD HH24:MI:SS');
 
@@ -57,8 +51,6 @@ ipcMain.on('getFile', function (event, message) {
     if(err) console.log(err);
     console.log("add write done");
   });
-  */
-  // window.createResultWindow();
 });
 
 ipcMain.on('menu', function (event, message) {
